@@ -1,3 +1,5 @@
+import 'package:cfa_movil/business_logic/repository/catalogs/catalogs_repository.dart';
+import 'package:cfa_movil/exceptions/no_connection_exception.dart';
 import 'package:cfa_movil/utils/inputs_validations/identification.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,12 +8,35 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(const HomeState()) {
-    on<HomeEvent>((event, emit) {});
+  final CatalogsRepository repository;
+
+  HomeBloc({required this.repository}) : super(const HomeState()) {
+    on<GetDocumentTypesService>(_getValImagenFraseService);
 
     on<SetIdentification>((event, emit) {
       emit(state.copyWith(
           identification: Identification.dirty(event.identification)));
     });
+  }
+  Future<void> _getValImagenFraseService(
+      GetDocumentTypesService event, Emitter<HomeState> emit) async {
+    try {
+      final response = await repository.getDocumentTypesService();
+
+      if (!response.exitoso!) {
+        _handleError(emit, response.descripcionError!);
+        return;
+      }
+
+      emit(state.copyWith(formStatus: FormStatusHome.valid));
+    } on NoConnectionException catch (exception) {
+      _handleError(emit, exception.message);
+    } catch (exception) {
+      _handleError(emit, 'Error en el servicio: ${exception.toString()}');
+    }
+  }
+
+  void _handleError(Emitter<HomeState> emit, String msgException) {
+    emit(state.copyWith(formStatus: FormStatusHome.errorService));
   }
 }

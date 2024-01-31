@@ -5,6 +5,7 @@ enum FormStatusHome {
   valid,
   validating,
   posting,
+  errorService
 }
 
 class HomeState extends Equatable {

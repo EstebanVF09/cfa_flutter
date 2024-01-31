@@ -7,3 +7,5 @@ class SetIdentification extends HomeEvent {
 
   SetIdentification({required this.identification});
 }
+
+class GetDocumentTypesService extends HomeEvent {}
