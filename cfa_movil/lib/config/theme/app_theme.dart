@@ -11,5 +11,5 @@ class AppTheme {
   }
 }
 
-const appBarColor = Colors.blue;
-const principalTextColor = Colors.blue;
+const appBarColor = Color(0xff005487);
+const principalTextColor = Color(0xff005487);

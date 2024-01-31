@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 
 class AppBarWidget {
   AppBar getAppBarWidget() => AppBar(
-        backgroundColor: appBarColor,
-        elevation: 1,
-        iconTheme: const IconThemeData(color: Colors.white),
-        flexibleSpace: Center(
-          child: SafeArea(
-            child: Container(
-                alignment: Alignment.center,
-                child: const Icon(Icons.dinner_dining)),
+      backgroundColor: appBarColor,
+      elevation: 1,
+      flexibleSpace: Center(
+        child: SafeArea(
+          child: Container(
+            alignment: Alignment.center,
+            child: Image.asset('assets/images/header_bar.jpeg'),
           ),
         ),
-      );
+      ));
 }

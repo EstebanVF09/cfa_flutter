@@ -1,3 +1,4 @@
+import 'package:cfa_movil/blocs/home/home_bloc.dart';
 import 'package:cfa_movil/config/router/app_router.dart';
 import 'package:cfa_movil/config/theme/app_theme.dart';
 import 'package:cfa_movil/setup_dependency_injection/setup_dependency_injection.dart';
@@ -18,9 +19,13 @@ class BlocsProviders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider<AppRouter>(create: (context) => getIt<AppRouter>()),
-    ], child: const MainApp());
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AppRouter>(create: (context) => getIt<AppRouter>()),
+        BlocProvider<HomeBloc>(create: (context) => getIt<HomeBloc>()),
+      ],
+      child: const MainApp(),
+    );
   }
 }
 
