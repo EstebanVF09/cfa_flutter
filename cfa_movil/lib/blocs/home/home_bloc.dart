@@ -11,14 +11,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final CatalogsRepository repository;
 
   HomeBloc({required this.repository}) : super(const HomeState()) {
-    on<GetDocumentTypesService>(_getValImagenFraseService);
+    on<GetDocumentTypesService>(_getDocumentTypesService);
+    on<GetBannerService>(_getBannerService);
 
     on<SetIdentification>((event, emit) {
       emit(state.copyWith(
           identification: Identification.dirty(event.identification)));
     });
   }
-  Future<void> _getValImagenFraseService(
+  Future<void> _getDocumentTypesService(
       GetDocumentTypesService event, Emitter<HomeState> emit) async {
     try {
       final response = await repository.getDocumentTypesService();
@@ -29,6 +30,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
 
       emit(state.copyWith(formStatus: FormStatusHome.valid));
+    } on NoConnectionException catch (exception) {
+      _handleError(emit, exception.message);
+    } catch (exception) {
+      _handleError(emit, 'Error en el servicio: ${exception.toString()}');
+    }
+  }
+
+  Future<void> _getBannerService(
+      GetBannerService event, Emitter<HomeState> emit) async {
+    try {
+      final response = await repository.getBannerService();
+
+      if (response.isNotEmpty) {
+        emit(state.copyWith(banners: response));
+      }
+      
     } on NoConnectionException catch (exception) {
       _handleError(emit, exception.message);
     } catch (exception) {

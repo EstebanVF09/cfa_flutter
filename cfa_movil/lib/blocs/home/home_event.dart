@@ -9,3 +9,5 @@ class SetIdentification extends HomeEvent {
 }
 
 class GetDocumentTypesService extends HomeEvent {}
+class GetBannerService extends HomeEvent {}
+

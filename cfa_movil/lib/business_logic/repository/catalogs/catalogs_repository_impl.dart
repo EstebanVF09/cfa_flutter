@@ -17,4 +17,12 @@ class CatalogsRepositoryImpl implements CatalogsRepository {
     final response = dataSource.getDocumentTypesService();
     return response;
   }
+
+  @override
+  Future<List<String>> getBannerService() async {
+    await connectionValidator.isConnectedToTheInternet();
+
+    final response = dataSource.getBannerService();
+    return response;
+  }
 }

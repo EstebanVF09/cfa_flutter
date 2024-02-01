@@ -24,4 +24,16 @@ class CatalogsDataSourceImpl implements CatalogsDataSource {
 
     return jsonResponseData;
   }
+
+  @override
+  Future<List<String>> getBannerService() async {
+    final response = await clientHttp.get(environment.apiGetBanner);
+
+    final List<dynamic> jsonResponse = jsonDecode(response.data);
+
+    final List<String> jsonResponseData =
+        jsonResponse.map((banner) => banner.toString()).toList();
+
+    return jsonResponseData;
+  }
 }

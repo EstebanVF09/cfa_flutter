@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   ThemeData getTheme() {
-    const seedColor = Colors.blue;
+    const seedColor = Color(0xff005487);
 
     return ThemeData(
         useMaterial3: true,
@@ -13,3 +13,5 @@ class AppTheme {
 
 const appBarColor = Color(0xff005487);
 const principalTextColor = Color(0xff005487);
+const primaryButtonColor = Color(0xff005487);
+const secondaryButtonColor = Color(0xff0091be);

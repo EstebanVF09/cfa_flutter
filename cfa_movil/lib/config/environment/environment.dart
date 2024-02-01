@@ -15,4 +15,6 @@ class Environment {
 
   String get apiCatalogoTiposDocumento =>
       '${dotenv.env['PUBLIC_API_URL_BASE']!}/Catalogos?entidad=CatalogoTiposdocumento';
+
+  String get apiGetBanner => '${dotenv.env['API_URL_BASE']!}/GetBanner';
 }

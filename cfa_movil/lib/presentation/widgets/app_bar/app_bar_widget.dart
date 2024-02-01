@@ -9,7 +9,7 @@ class AppBarWidget {
         child: SafeArea(
           child: Container(
             alignment: Alignment.center,
-            child: Image.asset('assets/images/header_bar.jpeg'),
+            child: Image.asset('assets/images/icon_header_bar.png'),
           ),
         ),
       ));

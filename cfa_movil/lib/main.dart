@@ -23,8 +23,9 @@ class BlocsProviders extends StatelessWidget {
       providers: [
         BlocProvider<AppRouter>(create: (context) => getIt<AppRouter>()),
         BlocProvider<HomeBloc>(
-            create: (context) =>
-                getIt<HomeBloc>()..add(GetDocumentTypesService())),
+            create: (context) => getIt<HomeBloc>()
+              ..add(GetDocumentTypesService())
+              ..add(GetBannerService())),
       ],
       child: const MainApp(),
     );
