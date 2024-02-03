@@ -1,6 +1,7 @@
 import 'package:cfa_movil/blocs/home/home_bloc.dart';
 import 'package:cfa_movil/config/router/app_router.dart';
 import 'package:cfa_movil/config/theme/app_theme.dart';
+import 'package:cfa_movil/cubits/bottom_menu/bottom_menu_cubit.dart';
 import 'package:cfa_movil/setup_dependency_injection/setup_dependency_injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,8 @@ class BlocsProviders extends StatelessWidget {
             create: (context) => getIt<HomeBloc>()
               ..add(GetDocumentTypesService())
               ..add(GetBannerService())),
+        BlocProvider<BottomMenuCubit>(
+            create: (context) => getIt<BottomMenuCubit>()),
       ],
       child: const MainApp(),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class DocumentTextFormFieldWidget extends StatelessWidget {
   final String? label;
@@ -8,7 +7,6 @@ class DocumentTextFormFieldWidget extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
-  final TextEditingController? controller;
 
   const DocumentTextFormFieldWidget({
     super.key,
@@ -18,7 +16,6 @@ class DocumentTextFormFieldWidget extends StatelessWidget {
     this.onChanged,
     this.validator,
     this.keyboardType,
-    this.controller,
   });
 
   @override
@@ -27,13 +24,11 @@ class DocumentTextFormFieldWidget extends StatelessWidget {
     const border = UnderlineInputBorder();
 
     return TextFormField(
-      controller: controller,
       style: const TextStyle(color: Colors.grey),
       maxLength: 12,
       onChanged: onChanged,
       validator: validator,
       keyboardType: keyboardType ?? TextInputType.number,
-      inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
       decoration: InputDecoration(
         hintText: hint,
         errorBorder:
@@ -43,7 +38,6 @@ class DocumentTextFormFieldWidget extends StatelessWidget {
         enabledBorder: border,
         focusedBorder:
             border.copyWith(borderSide: BorderSide(color: colors.primary)),
-        isDense: true,
         label: Text(label ?? ''),
         focusColor: colors.primary,
         errorText: errorMessage,

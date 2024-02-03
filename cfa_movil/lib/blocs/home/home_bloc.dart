@@ -18,6 +18,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(state.copyWith(
           identification: Identification.dirty(event.identification)));
     });
+
+    on<IndexViewChanged>((event, emit) {
+      emit(state.copyWith(selectedIndex: event.index));
+    });
   }
   Future<void> _getDocumentTypesService(
       GetDocumentTypesService event, Emitter<HomeState> emit) async {
@@ -45,7 +49,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (response.isNotEmpty) {
         emit(state.copyWith(banners: response));
       }
-      
     } on NoConnectionException catch (exception) {
       _handleError(emit, exception.message);
     } catch (exception) {
