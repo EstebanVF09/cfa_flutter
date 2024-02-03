@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cfa_movil/blocs/home/home_bloc.dart';
+import 'package:cfa_movil/business_logic/entities/catalogs/document_types_entity.dart';
 import 'package:cfa_movil/config/theme/app_theme.dart';
 import 'package:cfa_movil/presentation/widgets/buttons/dynamic_key_button_widget.dart';
 import 'package:cfa_movil/presentation/widgets/buttons/primary_button_widget.dart';
@@ -11,12 +12,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class HomeScreen extends StatelessWidget {
-  final HomeBloc homeBloc;
+  const HomeScreen({super.key});
 
-  const HomeScreen({
-    super.key,
-    required this.homeBloc,
-  });
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<HomeBloc, HomeState>(
+      listenWhen: (previousState, currentState) {
+        return previousState.formStatus != currentState.formStatus;
+      },
+      listener: (context, state) {
+        if (state.formStatus == FormStatusHome.errorService) {}
+      },
+      child: const _HomeView(),
+    );
+  }
+}
+
+class _HomeView extends StatelessWidget {
+  const _HomeView();
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +45,17 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                _buildDinamycKeyButton(),
+                _buildDinamycKeyButton(context),
                 const SizedBox(height: 20),
-                _buildTextFormFieldDocuementType(),
+                _buildTextFormFieldDocumentType(),
+                _buildTextFormFieldDocumentType2(context),
                 const SizedBox(height: 20),
                 _buildTextFormFieldDocument(context),
               ],
             ),
           ),
           const SizedBox(height: 20),
-          _buildBiometricsButton(),
+          _buildBiometricsButton(context),
           const SizedBox(height: 20),
           _buildPrimaryButton(),
           _buildSecondaryButton(),
@@ -71,23 +85,50 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Align _buildDinamycKeyButton() {
+  Align _buildDinamycKeyButton(BuildContext context) {
     return Align(
       alignment: Alignment.topLeft,
       child: SizedBox(
         width: 200,
         child: DynamicKeyButtonWidget(
-          onPressed: () {},
+          onPressed: () {
+            context.read<HomeBloc>().add(GetDocumentTypesService());
+          },
         ),
       ),
     );
   }
 
-  TextFormField _buildTextFormFieldDocuementType() {
+  TextFormField _buildTextFormFieldDocumentType() {
     return TextFormField(
       decoration: const InputDecoration(
           suffixIcon: Icon(Icons.arrow_drop_down),
           label: Text('Tipo de documento')),
+    );
+  }
+
+  Widget _buildTextFormFieldDocumentType2(BuildContext context) {
+    List<DataDocumentTypesEntity> documentTypesEntity =
+        context.select((HomeBloc value) => value.state.documentTypesEntity);
+
+    DataDocumentTypesEntity selectedOption = documentTypesEntity.isNotEmpty
+        ? documentTypesEntity[0]
+        : DataDocumentTypesEntity();
+
+    return DropdownButton<DataDocumentTypesEntity>(
+      value: selectedOption,
+      onChanged: (DataDocumentTypesEntity? newValue) {
+        if (newValue != null) {
+          //bloc.add(UpdateDocumentType(newValue));
+        }
+      },
+      items: documentTypesEntity.map<DropdownMenuItem<DataDocumentTypesEntity>>(
+          (DataDocumentTypesEntity value) {
+        return DropdownMenuItem<DataDocumentTypesEntity>(
+          value: value,
+          child: Text(value.descripcion ?? ''),
+        );
+      }).toList(),
     );
   }
 
@@ -106,7 +147,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  IconButton _buildBiometricsButton() {
+  IconButton _buildBiometricsButton(BuildContext context) {
     return IconButton.filled(
         color: Colors.black,
         iconSize: 50,
@@ -116,7 +157,9 @@ class HomeScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          context.read<HomeBloc>().add(GetDocumentTypesService());
+        },
         icon: const Icon(Icons.fingerprint));
   }
 
@@ -142,6 +185,9 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildBanners(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (previousState, currentState) {
+        return previousState.banners != currentState.banners;
+      },
       builder: (context, state) {
         return CarouselSlider(
           options: CarouselOptions(

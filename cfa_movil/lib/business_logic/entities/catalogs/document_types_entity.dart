@@ -2,7 +2,7 @@ class DocumentTypesEntity {
   final bool? exitoso;
   final String? codigoError;
   final String? descripcionError;
-  final List<DatumEntity>? data;
+  final List<DataDocumentTypesEntity>? data;
 
   DocumentTypesEntity({
     this.exitoso,
@@ -12,11 +12,11 @@ class DocumentTypesEntity {
   });
 }
 
-class DatumEntity {
+class DataDocumentTypesEntity {
   final String? codigo;
   final String? descripcion;
 
-  DatumEntity({
+  DataDocumentTypesEntity({
     this.codigo,
     this.descripcion,
   });

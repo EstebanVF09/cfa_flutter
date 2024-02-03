@@ -1,3 +1,4 @@
+import 'package:cfa_movil/business_logic/entities/catalogs/document_types_entity.dart';
 import 'package:cfa_movil/business_logic/repository/catalogs/catalogs_repository.dart';
 import 'package:cfa_movil/exceptions/no_connection_exception.dart';
 import 'package:cfa_movil/utils/inputs_validations/identification.dart';
@@ -33,7 +34,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         return;
       }
 
-      emit(state.copyWith(formStatus: FormStatusHome.valid));
+      emit(state.copyWith(
+        formStatus: FormStatusHome.valid,
+        documentTypesEntity: response.data,
+      ));
     } on NoConnectionException catch (exception) {
       _handleError(emit, exception.message);
     } catch (exception) {

@@ -1,8 +1,6 @@
-import 'package:cfa_movil/blocs/home/home_bloc.dart';
 import 'package:cfa_movil/cubits/bottom_menu/bottom_menu_cubit.dart';
 import 'package:cfa_movil/presentation/screens/home/home_screen.dart';
 import 'package:cfa_movil/presentation/widgets/app_bar/app_bar_widget.dart';
-import 'package:cfa_movil/setup_dependency_injection/setup_dependency_injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -73,9 +71,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
   Widget buildSelectedIndexBottomBar(int index) {
     switch (index) {
       case 0:
-        return HomeScreen(
-          homeBloc: getIt<HomeBloc>(),
-        );
+        return const HomeScreen();
       case 1:
         return Center(child: Text('Opcion $index'));
       case 2:

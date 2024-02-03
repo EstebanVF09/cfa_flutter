@@ -59,6 +59,6 @@ class DatumMapper {
         "Descripcion": descripcion,
       };
 
-  DatumEntity toEntity() =>
-      DatumEntity(codigo: codigo, descripcion: descripcion);
+  DataDocumentTypesEntity toEntity() =>
+      DataDocumentTypesEntity(codigo: codigo, descripcion: descripcion);
 }
