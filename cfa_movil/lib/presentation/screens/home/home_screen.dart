@@ -47,8 +47,7 @@ class _HomeView extends StatelessWidget {
               children: [
                 _buildDinamycKeyButton(context),
                 const SizedBox(height: 20),
-                _buildTextFormFieldDocumentType(),
-                _buildTextFormFieldDocumentType2(context),
+                _buildSelectDocumentType(context),
                 const SizedBox(height: 20),
                 _buildTextFormFieldDocument(context),
               ],
@@ -91,44 +90,53 @@ class _HomeView extends StatelessWidget {
       child: SizedBox(
         width: 200,
         child: DynamicKeyButtonWidget(
-          onPressed: () {
-            context.read<HomeBloc>().add(GetDocumentTypesService());
-          },
+          onPressed: () {},
         ),
       ),
     );
   }
 
-  TextFormField _buildTextFormFieldDocumentType() {
-    return TextFormField(
-      decoration: const InputDecoration(
-          suffixIcon: Icon(Icons.arrow_drop_down),
-          label: Text('Tipo de documento')),
-    );
-  }
-
-  Widget _buildTextFormFieldDocumentType2(BuildContext context) {
+  Widget _buildSelectDocumentType(BuildContext context) {
     List<DataDocumentTypesEntity> documentTypesEntity =
         context.select((HomeBloc value) => value.state.documentTypesEntity);
 
-    DataDocumentTypesEntity selectedOption = documentTypesEntity.isNotEmpty
-        ? documentTypesEntity[0]
-        : DataDocumentTypesEntity();
+    return SizedBox(
+      width: double.infinity,
+      child: PopupMenuButton<DataDocumentTypesEntity>(
+        child: _buildTextFormFieldDocumentType(context),
+        onSelected: (DataDocumentTypesEntity value) {
+          context.read<HomeBloc>().add(SetDocumentType(documentType: value));
+        },
+        itemBuilder: (BuildContext context) {
+          return documentTypesEntity
+              .map<PopupMenuEntry<DataDocumentTypesEntity>>(
+            (DataDocumentTypesEntity value) {
+              return PopupMenuItem<DataDocumentTypesEntity>(
+                value: value,
+                child: Text(value.descripcion ?? ''),
+              );
+            },
+          ).toList();
+        },
+      ),
+    );
+  }
 
-    return DropdownButton<DataDocumentTypesEntity>(
-      value: selectedOption,
-      onChanged: (DataDocumentTypesEntity? newValue) {
-        if (newValue != null) {
-          //bloc.add(UpdateDocumentType(newValue));
-        }
-      },
-      items: documentTypesEntity.map<DropdownMenuItem<DataDocumentTypesEntity>>(
-          (DataDocumentTypesEntity value) {
-        return DropdownMenuItem<DataDocumentTypesEntity>(
-          value: value,
-          child: Text(value.descripcion ?? ''),
-        );
-      }).toList(),
+  TextFormField _buildTextFormFieldDocumentType(BuildContext context) {
+    return TextFormField(
+      controller: TextEditingController.fromValue(
+        TextEditingValue(
+            text: context.select((HomeBloc bloc) =>
+                bloc.state.selectedDocumentType?.descripcion ?? '')),
+      ),
+      enabled: false,
+      decoration: const InputDecoration(
+        disabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        suffixIcon: Icon(Icons.arrow_drop_down),
+        label: Text('Tipo de documento'),
+      ),
     );
   }
 

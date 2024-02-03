@@ -14,7 +14,7 @@ class GetDocumentTypesService extends HomeEvent {}
 
 class GetBannerService extends HomeEvent {}
 
-class IndexViewChanged extends HomeEvent {
-  final int index;
-  const IndexViewChanged({required this.index});
+class SetDocumentType extends HomeEvent {
+  final DataDocumentTypesEntity documentType;
+  const SetDocumentType({required this.documentType});
 }

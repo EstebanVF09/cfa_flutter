@@ -20,8 +20,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           identification: Identification.dirty(event.identification)));
     });
 
-    on<IndexViewChanged>((event, emit) {
-      emit(state.copyWith(selectedIndex: event.index));
+    on<SetDocumentType>((event, emit) {
+      emit(state.copyWith(selectedDocumentType: event.documentType));
     });
   }
   Future<void> _getDocumentTypesService(

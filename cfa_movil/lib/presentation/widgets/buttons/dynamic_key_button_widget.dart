@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DynamicKeyButtonWidget extends StatelessWidget {
-  final Function()? onPressed;
+  final VoidCallback? onPressed;
 
   const DynamicKeyButtonWidget({
     super.key,
@@ -11,7 +11,7 @@ class DynamicKeyButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton.icon(
-        onPressed: () {},
+        onPressed: onPressed,
         label: const Text('Activar clave dinámica'),
         icon: Image.asset(
           'assets/images/activar_clave.png',
