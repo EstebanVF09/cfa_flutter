@@ -21,7 +21,9 @@ class HomeScreen extends StatelessWidget {
         return previousState.formStatus != currentState.formStatus;
       },
       listener: (context, state) {
-        if (state.formStatus == FormStatusHome.errorService) {}
+        if (state.formStatus == FormStatusHome.errorService) {
+          print('Error en el servicio');
+        }
       },
       child: const _HomeView(),
     );
@@ -200,7 +202,7 @@ class _HomeView extends StatelessWidget {
         return CarouselSlider(
           options: CarouselOptions(
             viewportFraction: 1,
-            aspectRatio: 2.5,
+            aspectRatio: 3,
             autoPlay: true,
             autoPlayInterval: const Duration(seconds: 5),
           ),
@@ -216,7 +218,7 @@ class _HomeView extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: '${dotenv.env['URL_SERVER_FOR_RESOURCES']!}/$fileUrl',
       width: double.infinity,
-      fit: BoxFit.cover,
+      fit: BoxFit.fill,
       placeholder: (context, url) =>
           const Center(child: CircularProgressIndicator()),
       errorWidget: (context, url, error) => const Icon(Icons.error),

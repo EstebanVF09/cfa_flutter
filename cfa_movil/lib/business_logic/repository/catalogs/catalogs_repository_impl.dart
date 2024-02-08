@@ -12,6 +12,7 @@ class CatalogsRepositoryImpl implements CatalogsRepository {
 
   @override
   Future<DocumentTypesEntity> getDocumentTypesService() async {
+    
     await connectionValidator.isConnectedToTheInternet();
 
     final response = dataSource.getDocumentTypesService();

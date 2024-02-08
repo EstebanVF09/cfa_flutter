@@ -24,6 +24,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(state.copyWith(selectedDocumentType: event.documentType));
     });
   }
+  
   Future<void> _getDocumentTypesService(
       GetDocumentTypesService event, Emitter<HomeState> emit) async {
     try {

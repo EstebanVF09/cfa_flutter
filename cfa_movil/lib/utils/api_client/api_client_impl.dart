@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ApiClientImpl implements ApiClient {
   final http.Client clientHttp = http.Client();
-
+  
   ApiClientImpl();
 
   @override
@@ -17,9 +17,7 @@ class ApiClientImpl implements ApiClient {
   @override
   Future<ApiResponse> post(String url, String json) async {
     final uri = Uri.parse(url);
-
     final response = await clientHttp.post(uri);
-
     return ApiResponse(data: response.body, status: response.statusCode);
   }
 }
